@@ -1,0 +1,310 @@
+/* ============================================================
+   UMC WMS — Design Token System
+   Phiên bản: 2.0
+   ============================================================ */
+
+/* ------------------------------------------------------------------
+   1. COLOR PALETTE
+   ------------------------------------------------------------------ */
+:root {
+  /* --- Brand: Deep Navy (Primary) --- */
+  --clr-primary-950: #050D1A;
+  --clr-primary-900: #0A1628;
+  --clr-primary-800: #0F2040;
+  --clr-primary-700: #1E3A5F;
+  --clr-primary-600: #2563EB;
+  --clr-primary-500: #3B82F6;
+  --clr-primary-400: #60A5FA;
+  --clr-primary-300: #93C5FD;
+
+  /* --- Brand: Amber/Orange (Accent) --- */
+  --clr-accent-700: #B45309;
+  --clr-accent-600: #D97706;
+  --clr-accent-500: #F59E0B;
+  --clr-accent-400: #FBBF24;
+  --clr-accent-300: #FCD34D;
+  --clr-accent-100: #FEF3C7;
+
+  /* --- Success: Emerald --- */
+  --clr-success-800: #065F46;
+  --clr-success-700: #047857;
+  --clr-success-600: #059669;
+  --clr-success-500: #10B981;
+  --clr-success-400: #34D399;
+  --clr-success-100: #D1FAE5;
+
+  /* --- Danger: Rose --- */
+  --clr-danger-800: #9F1239;
+  --clr-danger-700: #BE123C;
+  --clr-danger-600: #E11D48;
+  --clr-danger-500: #EF4444;
+  --clr-danger-400: #F87171;
+  --clr-danger-100: #FFE4E6;
+
+  /* --- Warning: Amber --- */
+  --clr-warning-600: #D97706;
+  --clr-warning-500: #F59E0B;
+  --clr-warning-400: #FBBF24;
+  --clr-warning-100: #FEF3C7;
+
+  /* --- Info: Sky --- */
+  --clr-info-600: #0284C7;
+  --clr-info-500: #0EA5E9;
+  --clr-info-400: #38BDF8;
+  --clr-info-100: #E0F2FE;
+
+  /* --- Neutral: Slate --- */
+  --clr-slate-950: #020617;
+  --clr-slate-900: #0F172A;
+  --clr-slate-800: #1E293B;
+  --clr-slate-700: #334155;
+  --clr-slate-600: #475569;
+  --clr-slate-500: #64748B;
+  --clr-slate-400: #94A3B8;
+  --clr-slate-300: #CBD5E1;
+  --clr-slate-200: #E2E8F0;
+  --clr-slate-100: #F1F5F9;
+  --clr-slate-50:  #F8FAFC;
+  --clr-white:     #FFFFFF;
+}
+
+/* ------------------------------------------------------------------
+   2. SEMANTIC COLOR TOKENS (Light Mode)
+   ------------------------------------------------------------------ */
+:root {
+  /* Surfaces */
+  --surface-bg:        #F1F5F9;
+  --surface-card:      #FFFFFF;
+  --surface-sidebar:   #0A1628;
+  --surface-header:    rgba(255, 255, 255, 0.85);
+  --surface-overlay:   rgba(15, 23, 42, 0.6);
+  --surface-hover:     rgba(30, 58, 95, 0.04);
+  --surface-active:    rgba(37, 99, 235, 0.06);
+
+  /* Text */
+  --text-primary:      #0F172A;
+  --text-secondary:    #475569;
+  --text-muted:        #94A3B8;
+  --text-inverse:      #FFFFFF;
+  --text-accent:       #1E3A5F;
+  --text-link:         #2563EB;
+  --text-danger:       #E11D48;
+
+  /* Borders */
+  --border-default:    #E2E8F0;
+  --border-subtle:     #F1F5F9;
+  --border-strong:     #CBD5E1;
+  --border-focus:      rgba(37, 99, 235, 0.4);
+
+  /* Interactive */
+  --btn-primary-bg:    var(--clr-primary-700);
+  --btn-primary-hover: var(--clr-primary-600);
+  --btn-primary-ghost-color: var(--clr-primary-700);
+  --btn-primary-ghost-hover-bg: rgba(30, 58, 95, 0.06);
+  --btn-accent-bg:     var(--clr-accent-500);
+  --btn-accent-hover:  var(--clr-accent-600);
+  --btn-success-bg:    var(--clr-success-500);
+  --btn-success-hover: var(--clr-success-600);
+
+  /* Tables */
+  --table-header-bg:      var(--clr-slate-50);
+  --table-header-color:   var(--clr-slate-500);
+  --table-row-alt-bg:     #FAFBFF;
+  --table-row-hover-bg:   var(--clr-slate-100);
+  --table-border-color:   var(--border-subtle);
+
+  /* Modals */
+  --modal-bg:             #FFFFFF;
+  --modal-header-bg:      linear-gradient(90deg, var(--clr-slate-50) 0%, #FFFFFF 100%);
+  --modal-header-text:    var(--text-primary);
+  --modal-border-color:   var(--border-default);
+
+  /* Descriptions */
+  --descr-label-bg:       var(--clr-slate-50);
+  --descr-content-bg:     #FFFFFF;
+  --descr-border-color:   var(--border-default);
+}
+
+/* ------------------------------------------------------------------
+   3. DARK MODE SEMANTIC TOKENS
+   ------------------------------------------------------------------ */
+[data-theme="dark"] {
+  /* Surfaces */
+  --surface-bg:        #0A0F1E;
+  --surface-card:      #111827;
+  --surface-sidebar:   #060B14;
+  --surface-header:    rgba(17, 24, 39, 0.9);
+  --surface-overlay:   rgba(0, 0, 0, 0.7);
+  --surface-hover:     rgba(255, 255, 255, 0.05);
+  --surface-active:    rgba(96, 165, 250, 0.08);
+
+  /* Text */
+  --text-primary:      #F1F5F9;
+  --text-secondary:    #94A3B8;
+  --text-muted:        #475569;
+  --text-inverse:      #0F172A;
+  --text-accent:       #60A5FA;
+  --text-link:         #60A5FA;
+  --text-danger:       #F87171;
+
+  /* Borders */
+  --border-default:    #1E293B;
+  --border-subtle:     #111827;
+  --border-strong:     #334155;
+  --border-focus:      rgba(96, 165, 250, 0.4);
+
+  /* Interactive */
+  --btn-primary-bg:    var(--clr-primary-500);
+  --btn-primary-hover: var(--clr-primary-400);
+  --btn-primary-ghost-color: var(--clr-primary-400);
+  --btn-primary-ghost-hover-bg: rgba(96, 165, 250, 0.15);
+
+  /* Tables */
+  --table-header-bg:      #1F2937;
+  --table-header-color:   var(--clr-slate-300);
+  --table-row-alt-bg:     #182030;
+  --table-row-hover-bg:   #1F2937;
+  --table-border-color:   var(--border-default);
+
+  /* Modals */
+  --modal-bg:             #111827;
+  --modal-header-bg:      linear-gradient(90deg, #1F2937 0%, #111827 100%);
+  --modal-header-text:    var(--text-primary);
+  --modal-border-color:   var(--border-default);
+
+  /* Descriptions */
+  --descr-label-bg:       #1F2937;
+  --descr-content-bg:     #111827;
+  --descr-border-color:   var(--border-default);
+}
+
+/* ------------------------------------------------------------------
+   4. GRADIENT TOKENS
+   ------------------------------------------------------------------ */
+:root {
+  --gradient-sidebar:
+    linear-gradient(160deg, #0A1628 0%, #0F2040 60%, #091525 100%);
+  --gradient-sidebar-dark:
+    linear-gradient(160deg, #060B14 0%, #0A1628 100%);
+  --gradient-primary:
+    linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%);
+  --gradient-accent:
+    linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+  --gradient-success:
+    linear-gradient(135deg, #047857 0%, #10B981 100%);
+  --gradient-danger:
+    linear-gradient(135deg, #BE123C 0%, #EF4444 100%);
+  --gradient-info:
+    linear-gradient(135deg, #0284C7 0%, #0EA5E9 100%);
+  --gradient-purple:
+    linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%);
+
+  /* Subtle bg gradients for stat cards */
+  --gradient-stat-blue:
+    linear-gradient(135deg, rgba(30, 58, 95, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%);
+  --gradient-stat-green:
+    linear-gradient(135deg, rgba(4, 120, 87, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+  --gradient-stat-orange:
+    linear-gradient(135deg, rgba(180, 83, 9, 0.12) 0%, rgba(245, 158, 11, 0.08) 100%);
+  --gradient-stat-red:
+    linear-gradient(135deg, rgba(190, 18, 60, 0.12) 0%, rgba(239, 68, 68, 0.08) 100%);
+  --gradient-stat-purple:
+    linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%);
+
+  /* Header bottom border gradient */
+  --gradient-header-border:
+    linear-gradient(90deg, transparent, #E2E8F0 20%, #E2E8F0 80%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   5. SHADOW TOKENS
+   ------------------------------------------------------------------ */
+:root {
+  --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:   0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  --shadow-lg:   0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl:   0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl:  0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --shadow-card:       0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 25px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-sidebar:    4px 0 24px rgba(0, 0, 0, 0.25);
+  --shadow-header:     0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-modal:      0 20px 60px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-dropdown:   0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+
+  /* Colored glow shadows for stat cards */
+  --shadow-glow-blue:   0 0 24px rgba(37, 99, 235, 0.18), 0 4px 12px rgba(37, 99, 235, 0.10);
+  --shadow-glow-green:  0 0 24px rgba(16, 185, 129, 0.18), 0 4px 12px rgba(16, 185, 129, 0.10);
+  --shadow-glow-orange: 0 0 24px rgba(245, 158, 11, 0.18), 0 4px 12px rgba(245, 158, 11, 0.10);
+  --shadow-glow-red:    0 0 24px rgba(239, 68, 68, 0.18), 0 4px 12px rgba(239, 68, 68, 0.10);
+  --shadow-glow-purple: 0 0 24px rgba(167, 139, 250, 0.18), 0 4px 12px rgba(167, 139, 250, 0.10);
+
+  --shadow-focus-blue:  0 0 0 3px rgba(37, 99, 235, 0.2);
+  --shadow-focus-accent:0 0 0 3px rgba(245, 158, 11, 0.25);
+}
+
+/* ------------------------------------------------------------------
+   6. SPACING & RADIUS TOKENS
+   ------------------------------------------------------------------ */
+:root {
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  20px;
+  --radius-full: 9999px;
+
+  --spacing-1:  4px;
+  --spacing-2:  8px;
+  --spacing-3:  12px;
+  --spacing-4:  16px;
+  --spacing-5:  20px;
+  --spacing-6:  24px;
+  --spacing-8:  32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+}
+
+/* ------------------------------------------------------------------
+   7. TYPOGRAPHY TOKENS
+   ------------------------------------------------------------------ */
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.8125rem;  /* 13px */
+  --text-base: 0.875rem;   /* 14px */
+  --text-md:   1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+  --weight-extrabold: 800;
+}
+
+/* ------------------------------------------------------------------
+   8. TRANSITION TOKENS
+   ------------------------------------------------------------------ */
+:root {
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast:   120ms;
+  --duration-normal: 200ms;
+  --duration-slow:   300ms;
+  --duration-slower: 400ms;
+
+  --transition-fast:   var(--duration-fast) var(--ease-standard);
+  --transition-normal: var(--duration-normal) var(--ease-standard);
+  --transition-slow:   var(--duration-slow) var(--ease-standard);
+  --transition-spring: var(--duration-slower) var(--ease-spring);
+}

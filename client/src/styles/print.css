@@ -1,0 +1,180 @@
+/* Stylesheet for Vietnamese administrative printing standards */
+
+@media print {
+  /* Hide standard web UI elements */
+  .no-print,
+  aside,
+  header,
+  .ant-layout-sider,
+  .ant-layout-header,
+  .ant-btn,
+  .ant-breadcrumb,
+  .ant-tabs-nav,
+  .ant-divider-horizontal,
+  .no-print * {
+    display: none !important;
+  }
+
+  /* Reset layout constraints for paper sizing */
+  body, html, #root, .ant-layout, .ant-layout-content {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    width: 100% !important;
+    box-shadow: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  /* Print document layout */
+  .print-document {
+    display: block !important;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #000000 !important;
+    background: #FFFFFF !important;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* Header alignment */
+  .print-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 25px !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+  }
+
+  .print-header-left {
+    width: 60% !important;
+    text-align: left !important;
+  }
+
+  .print-company-name {
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+  }
+
+  .print-company-address {
+    margin-top: 2px !important;
+  }
+
+  .print-header-right {
+    width: 40% !important;
+    text-align: right !important;
+  }
+
+  .print-form-number {
+    font-weight: bold !important;
+  }
+
+  .print-form-law {
+    font-size: 10px !important;
+    font-style: italic !important;
+    margin-top: 2px !important;
+  }
+
+  /* Title block */
+  .print-title-container {
+    text-align: center !important;
+    margin-top: 10px !important;
+    margin-bottom: 25px !important;
+  }
+
+  .print-title-text {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 19px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+  }
+
+  .print-date-sub {
+    font-style: italic !important;
+    font-size: 12px !important;
+    margin-top: 5px !important;
+  }
+
+  /* Info block */
+  .print-info-group {
+    margin-bottom: 20px !important;
+    font-size: 13px !important;
+  }
+
+  .print-info-row {
+    margin-bottom: 4px !important;
+  }
+
+  /* Table styling for print */
+  .print-document table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 15px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .print-document th,
+  .print-document td {
+    border: 1px solid #000000 !important;
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+    color: #000000 !important;
+  }
+
+  .print-document th {
+    background: #f3f4f6 !important;
+    font-weight: bold !important;
+    text-align: center !important;
+  }
+
+  .print-document td.num-cell,
+  .print-document th.num-cell {
+    text-align: right !important;
+  }
+
+  .print-document td.center-cell,
+  .print-document th.center-cell {
+    text-align: center !important;
+  }
+
+  /* Signature columns */
+  .print-signatures {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 35px !important;
+    page-break-inside: avoid !important;
+  }
+
+  .print-signature-col {
+    flex: 1 !important;
+    text-align: center !important;
+  }
+
+  .print-signature-role {
+    font-weight: bold !important;
+  }
+
+  .print-signature-sub {
+    font-style: italic !important;
+    font-size: 11px !important;
+    margin-top: 2px !important;
+  }
+
+  .print-signature-space {
+    height: 70px !important;
+  }
+}
+
+/* Hide print layout in normal screen view */
+@media screen {
+  .print-document {
+    display: none !important;
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "umc-warehouse-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "npx --no-install eslint src --ext .js,.jsx",
+    "lint:fix": "npx --no-install eslint src --ext .js,.jsx --fix",
+    "format": "npx --no-install prettier --write \"src/**/*.{js,jsx}\""
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.62.10",
+    "antd": "5.22.5",
+    "axios": "1.7.9",
+    "dayjs": "1.11.13",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.28.1",
+    "react-to-print": "^3.3.0",
+    "recharts": "2.15.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "4.3.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "oxlint": "^1.71.0",
+    "prettier": "^3.9.4",
+    "vite": "6.0.5"
+  }
+}
