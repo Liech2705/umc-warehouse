@@ -72,9 +72,11 @@ export default function DefectiveItemList() {
   };
   const [selectedRecord, setSelectedRecord] = useState(null);
 
-  // State quản lý tab & Modal
+  // State quản lý tab & Modal & Phân trang
   const [activeTab, setActiveTab] = useState('CHO_XU_LY');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
 
   // Watcher trong Form để hiển thị workshop_id động
   const sourceTypeWatch = Form.useWatch('source_type', form);
@@ -82,17 +84,17 @@ export default function DefectiveItemList() {
   const isAdminOrManager = user?.role === 'Admin' || user?.role === 'QuanLy';
   const canReturn = user?.role === 'Admin' || user?.role === 'QuanLy' || user?.role === 'ThuKho';
 
-  // 1. Fetch danh sách hàng lỗi theo trạng thái tab hiện tại
+  // 1. Fetch danh sách hàng lỗi theo trạng thái tab hiện tại (có filter & phân trang)
   const {
     data: listRes,
     isLoading,
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['defectiveItems', activeTab],
+    queryKey: ['defectiveItems', activeTab, page, limit],
     queryFn: async () => {
       const { data } = await axiosClient.get('/defective-items', {
-        params: { status: activeTab },
+        params: { status: activeTab, page, limit },
       });
       return data;
     },
@@ -124,6 +126,7 @@ export default function DefectiveItemList() {
   });
 
   const defectiveItems = listRes?.data || [];
+  const totalItems = listRes?.pagination?.totalItems || 0;
   const products = productsRes?.data || [];
   const warehouses = warehousesRes?.data || [];
   const workshops = workshopsRes?.data || [];
@@ -141,6 +144,9 @@ export default function DefectiveItemList() {
       const prodName = prod ? prod.product_name : '';
       message.success(`Đã cách ly ${qty} sản phẩm "${prodName}" bị lỗi thành công.`);
       queryClient.invalidateQueries({ queryKey: ['defectiveItems'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardSummary'] });
       setIsModalOpen(false);
       form.resetFields();
     },
@@ -158,6 +164,9 @@ export default function DefectiveItemList() {
     onSuccess: (res) => {
       message.success(res.message || 'Phê duyệt hủy hàng thành công.');
       queryClient.invalidateQueries({ queryKey: ['defectiveItems'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardSummary'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Lỗi phê duyệt hủy.');
@@ -173,6 +182,9 @@ export default function DefectiveItemList() {
     onSuccess: (res) => {
       message.success(res.message || 'Chuyển trạng thái Trả NCC thành công.');
       queryClient.invalidateQueries({ queryKey: ['defectiveItems'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardSummary'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Có lỗi xảy ra.');
@@ -356,7 +368,10 @@ export default function DefectiveItemList() {
       <Card bordered={false}>
         <Tabs
           activeKey={activeTab}
-          onChange={(key) => setActiveTab(key)}
+          onChange={(key) => {
+            setActiveTab(key);
+            setPage(1);
+          }}
           items={tabItems}
           style={{ marginBottom: 16 }}
         />
@@ -379,6 +394,17 @@ export default function DefectiveItemList() {
           columns={columns}
           rowKey="defective_id"
           loading={isLoading}
+          pagination={{
+            current: page,
+            pageSize: limit,
+            total: totalItems,
+            showSizeChanger: true,
+            showTotal: (total, range) => `${range[0]}–${range[1]} / ${total} bản ghi`,
+            onChange: (p, l) => {
+              setPage(p);
+              setLimit(l);
+            },
+          }}
           emptyTitle={
             activeTab === 'CHO_XU_LY'
               ? 'Chưa có hàng lỗi nào chờ xử lý'

@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const {
   sequelize,
   Product,
+  Inventory,
   ImportReceipt,
   ExportReceipt,
   ImportDetail,
@@ -155,6 +156,17 @@ exports.getSummary = async (req, res, next) => {
       limit: 5,
     });
 
+    // 8. Tổng giá trị tồn kho toàn hệ thống
+    const inventoryValueResult = await Inventory.findOne({
+      attributes: [
+        [sequelize.fn('SUM', sequelize.literal('quantity * avg_unit_price')), 'total_value'],
+      ],
+      raw: true,
+    });
+    const totalInventoryValue = parseFloat(
+      parseFloat(inventoryValueResult?.total_value || 0).toFixed(2)
+    );
+
     return res.status(200).json({
       success: true,
       data: {
@@ -163,6 +175,7 @@ exports.getSummary = async (req, res, next) => {
           totalImportsInMonth: totalImports,
           totalExportsInMonth: totalExports,
           totalDefectiveHold,
+          total_inventory_value: totalInventoryValue,
         },
         lowStockProducts,
         chartData,

@@ -44,6 +44,9 @@ export default function WorkshopList() {
     onSuccess: (res) => {
       message.success(`Đã tạo xưởng "${res.data?.workshop_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['workshops'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -60,6 +63,9 @@ export default function WorkshopList() {
     onSuccess: (res) => {
       message.success(`Đã cập nhật xưởng "${res.data?.workshop_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['workshops'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -76,6 +82,9 @@ export default function WorkshopList() {
     onSuccess: (res) => {
       message.success(res.message || 'Xóa xưởng thành công');
       queryClient.invalidateQueries({ queryKey: ['workshops'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Không thể xóa xưởng sản xuất này');

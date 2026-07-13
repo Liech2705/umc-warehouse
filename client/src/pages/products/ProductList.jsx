@@ -67,6 +67,7 @@ export default function ProductList() {
     onSuccess: (res) => {
       message.success(`Đã tạo sản phẩm "${res.data?.product_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -83,6 +84,7 @@ export default function ProductList() {
     onSuccess: (res) => {
       message.success(`Đã cập nhật sản phẩm "${res.data?.product_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -99,6 +101,7 @@ export default function ProductList() {
     onSuccess: (res) => {
       message.success(res.message || 'Xóa sản phẩm thành công');
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Không thể xóa sản phẩm này');

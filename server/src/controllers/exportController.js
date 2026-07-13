@@ -109,6 +109,7 @@ exports.create = async (req, res, next) => {
     );
 
     // 5. Xử lý trừ kho cho từng sản phẩm trong chi tiết phiếu xuất
+    let totalExportValue = 0;
     for (const item of details) {
       const { product_id, quantity, batch_code } = item;
 
@@ -142,6 +143,15 @@ exports.create = async (req, res, next) => {
 
       // Tính tổng số lượng tồn khả dụng trong toàn bộ kho
       const totalAvailable = inventoryRecords.reduce((sum, rec) => sum + rec.quantity, 0);
+
+      // Chụp đơn giá bình quân gia quyền trước khi trừ kho (dùng để ghi StockHistory)
+      const unitCostSnapshot = totalAvailable > 0
+        ? parseFloat(
+            (inventoryRecords.reduce(
+              (sum, rec) => sum + rec.quantity * parseFloat(rec.avg_unit_price || 0), 0
+            ) / totalAvailable).toFixed(2)
+          )
+        : 0;
 
       // Chặn nếu không đủ tồn kho
       if (totalAvailable < quantity) {
@@ -179,14 +189,20 @@ exports.create = async (req, res, next) => {
         { transaction }
       );
 
-      // b. Tạo lịch sử tồn kho (StockHistory) dạng trừ số lượng (-quantity)
+      // b. Tạo lịch sử tồn kho (StockHistory) kèm giá trị biến động
+      const qtyExport = parseInt(quantity, 10);
+      const totalValueLine = parseFloat((-qtyExport * unitCostSnapshot).toFixed(2));
+      totalExportValue += Math.abs(totalValueLine);
+
       await StockHistory.create(
         {
           product_id,
           warehouse_id,
-          change_type: 'Xuất', // Khớp với ENUM của DB
+          change_type: 'Xuất',
           reference_id: exportReceipt.export_id,
-          quantity_change: -parseInt(quantity, 10),
+          quantity_change: -qtyExport,
+          unit_cost: unitCostSnapshot,
+          total_value: totalValueLine,
           user_id: req.user.user_id,
           created_at: new Date(),
         },
@@ -213,6 +229,7 @@ exports.create = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       data: responseData,
+      total_export_value: parseFloat(totalExportValue.toFixed(2)),
       message: 'Xuất kho và cập nhật số lượng tồn thành công.',
     });
   } catch (error) {
@@ -312,9 +329,18 @@ exports.getById = async (req, res, next) => {
       });
     }
 
+    const totalValueResult = await StockHistory.sum('total_value', {
+      where: {
+        reference_id: id,
+        change_type: 'Xuất',
+      },
+    });
+    const totalExportValue = Math.abs(parseFloat(totalValueResult || 0));
+
     return res.status(200).json({
       success: true,
       data: exportReceipt,
+      total_export_value: parseFloat(totalExportValue.toFixed(2)),
       message: 'Lấy thông tin chi tiết phiếu xuất kho thành công.',
     });
   } catch (error) {

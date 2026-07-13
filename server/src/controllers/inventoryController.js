@@ -22,6 +22,11 @@ exports.getInventory = async (req, res, next) => {
 
     const queryOptions = {
       where: whereClause,
+      attributes: {
+        include: [
+          [sequelize.literal('`Inventory`.`quantity` * `Inventory`.`avg_unit_price`'), 'total_value'],
+        ],
+      },
       include: [
         {
           model: Product,
@@ -175,6 +180,48 @@ exports.exportExcel = async (req, res, next) => {
       sheetName: 'Ton_Kho_Realtime',
       columns,
       data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// [GET] /api/inventory/value (Tổng giá trị tồn kho theo từng kho)
+exports.getInventoryValue = async (req, res, next) => {
+  try {
+    const { warehouse_id } = req.query;
+    const whereClause = {};
+    if (warehouse_id) whereClause.warehouse_id = parseInt(warehouse_id);
+
+    const rows = await Inventory.findAll({
+      where: whereClause,
+      attributes: [
+        'warehouse_id',
+        [
+          sequelize.fn('SUM', sequelize.literal('`Inventory`.`quantity` * `Inventory`.`avg_unit_price`')),
+          'total_value',
+        ],
+      ],
+      include: [{ model: Warehouse, attributes: ['warehouse_name'] }],
+      group: ['Inventory.warehouse_id', 'Warehouse.warehouse_id'],
+    });
+
+    const byWarehouse = rows.map((r) => ({
+      warehouse_id: r.warehouse_id,
+      warehouse_name: r.Warehouse?.warehouse_name || '',
+      total_value: parseFloat(parseFloat(r.getDataValue('total_value') || 0).toFixed(2)),
+    }));
+
+    const totalValueAllWarehouses = parseFloat(
+      byWarehouse.reduce((sum, w) => sum + w.total_value, 0).toFixed(2)
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        total_value_all_warehouses: totalValueAllWarehouses,
+        by_warehouse: byWarehouse,
+      },
     });
   } catch (error) {
     next(error);

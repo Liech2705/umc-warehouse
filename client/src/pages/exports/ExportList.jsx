@@ -34,6 +34,7 @@ import StatusTag from '../../components/common/StatusTag';
 import PrintButton from '../../components/print/PrintButton';
 import ExportReceiptPrint from '../../components/print/ExportReceiptPrint';
 import usePrint from '../../hooks/usePrint';
+import { formatCurrency } from '../../utils/formatCurrency';
 
 const { RangePicker } = DatePicker;
 const { Text } = Typography;
@@ -106,7 +107,15 @@ export default function ExportList() {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['exports', warehouseId, exportType, dateRange, page, limit],
+    queryKey: [
+      'exports',
+      warehouseId,
+      exportType,
+      dateRange?.[0]?.format('YYYY-MM-DD'),
+      dateRange?.[1]?.format('YYYY-MM-DD'),
+      page,
+      limit,
+    ],
     queryFn: async () => {
       const params = {
         page,
@@ -453,6 +462,15 @@ export default function ExportList() {
               size="small"
               scroll={{ x: 'max-content' }}
             />
+
+            <div style={{ marginTop: 20, textAlign: 'right', padding: '0 8px' }}>
+              <span style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
+                Tổng giá trị xuất kho:{' '}
+              </span>
+              <Text type="danger" style={{ fontSize: 18, fontWeight: 700 }}>
+                {formatCurrency(detailRes?.total_export_value || 0)}
+              </Text>
+            </div>
           </div>
         )}
       </Modal>

@@ -115,6 +115,9 @@ export default function ImportCreate() {
     onSuccess: (res) => {
       message.success(res.message || 'Lập phiếu nhập kho thành công!');
       queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardSummary'] });
       navigate('/imports');
     },
     onError: (err) => {

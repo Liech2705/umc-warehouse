@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Select, Checkbox, Card, Row, Col, Typography, Tag, Alert, Button, message } from 'antd';
+import { Table, Select, Checkbox, Card, Row, Col, Typography, Tag, Alert, Button, message } from 'antd';
 import axiosClient from '../../api/axiosClient';
 import { DatabaseOutlined, FileExcelOutlined } from '@ant-design/icons';
 import DataTable from '../../components/common/DataTable';
 import PageHeader from '../../components/common/PageHeader';
 import StatusTag from '../../components/common/StatusTag';
+import { formatCurrency } from '../../utils/formatCurrency';
 
 const { Text } = Typography;
 
@@ -112,6 +113,20 @@ export default function InventoryList() {
       render: (val, record) => `${val.toLocaleString()} ${record.Product?.unit || ''}`,
     },
     {
+      title: 'Đơn giá bình quân',
+      dataIndex: 'avg_unit_price',
+      key: 'avg_unit_price',
+      width: 150,
+      render: (val) => formatCurrency(val || 0),
+    },
+    {
+      title: 'Giá trị tồn',
+      dataIndex: 'total_value',
+      key: 'total_value',
+      width: 170,
+      render: (val, record) => formatCurrency(val || (record.quantity * (record.avg_unit_price || 0))),
+    },
+    {
       title: 'Ngưỡng tối thiểu',
       key: 'min_stock',
       width: 140,
@@ -197,6 +212,27 @@ export default function InventoryList() {
           }}
           emptyTitle="Chưa có tồn kho tại kho này"
           emptyDescription="Vui lòng chọn kho khác hoặc điều chỉnh bộ lọc để xem tồn kho."
+          summary={(pageData) => {
+            let totalVal = 0;
+            pageData.forEach(({ quantity, avg_unit_price }) => {
+              totalVal += quantity * parseFloat(avg_unit_price || 0);
+            });
+
+            return (
+              <Table.Summary fixed>
+                <Table.Summary.Row style={{ background: 'var(--table-header-bg)' }}>
+                  <Table.Summary.Cell index={0} colSpan={6}>
+                    <span style={{ fontWeight: 700 }}>Tổng giá trị tồn kho:</span>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={1} colSpan={3}>
+                    <Text type="danger" style={{ fontWeight: 700, fontSize: '15px' }}>
+                      {formatCurrency(totalVal)}
+                    </Text>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            );
+          }}
         />
       </Card>
     </div>

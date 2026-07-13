@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       warehouse_id: { type: DataTypes.INTEGER, allowNull: false },
       location_id: { type: DataTypes.INTEGER, allowNull: true },
       quantity: { type: DataTypes.INTEGER, defaultValue: 0 },
+      avg_unit_price: { type: DataTypes.DECIMAL(15, 2), defaultValue: 0 },
     },
     {
       sequelize,

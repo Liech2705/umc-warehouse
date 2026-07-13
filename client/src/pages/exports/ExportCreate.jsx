@@ -111,6 +111,9 @@ export default function ExportCreate() {
     onSuccess: (res) => {
       message.success(res.message || 'Lập phiếu xuất kho thành công!');
       queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardSummary'] });
       navigate('/exports');
     },
     onError: (err) => {

@@ -121,6 +121,8 @@ export default function InventoryCheckDetail() {
     onSuccess: (res) => {
       message.success(res.message || 'Khởi tạo phiếu kiểm kê thành công.');
       queryClient.invalidateQueries({ queryKey: ['inventoryChecks'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
       setIsNewModalOpen(false);
       // Mở thẳng sang màn hình nhập liệu phiếu vừa tạo
       setActiveCheckId(res.data.check_id);
@@ -161,6 +163,8 @@ export default function InventoryCheckDetail() {
       message.success(res.message || 'Xác nhận đối chiếu và điều chỉnh tồn kho thành công!');
       queryClient.invalidateQueries({ queryKey: ['inventoryChecks'] });
       queryClient.invalidateQueries({ queryKey: ['inventoryChecks', activeCheckId] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
       setActiveCheckId(null); // Quay lại trang danh sách
     },
     onError: (err) => {

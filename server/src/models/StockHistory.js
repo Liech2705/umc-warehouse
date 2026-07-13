@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       reference_id: { type: DataTypes.INTEGER, allowNull: true },
       quantity_change: { type: DataTypes.INTEGER, allowNull: false },
+      unit_cost: { type: DataTypes.DECIMAL(15, 2), allowNull: true },
+      total_value: { type: DataTypes.DECIMAL(15, 2), allowNull: true },
       user_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {

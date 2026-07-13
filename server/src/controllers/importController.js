@@ -176,7 +176,7 @@ exports.create = async (req, res, next) => {
         { transaction }
       );
 
-      // b. Cập nhật tồn kho (Inventory)
+      // b. Cập nhật tồn kho (Inventory) + tính bình quân gia quyền
       const inventory = await Inventory.findOne({
         where: {
           product_id,
@@ -186,30 +186,67 @@ exports.create = async (req, res, next) => {
         transaction,
       });
 
-      if (inventory) {
-        inventory.quantity += parseInt(quantity, 10);
-        await inventory.save({ transaction });
-      } else {
-        await Inventory.create(
-          {
-            product_id,
-            warehouse_id,
-            location_id: location_id || null,
-            quantity: parseInt(quantity, 10),
-            updated_at: new Date(),
-          },
-          { transaction }
+      const qtyImport = parseInt(quantity, 10);
+      let unitCostForHistory;
+
+      if (typeMapped === 'Từ NCC') {
+        // Tính bình quân gia quyền: (tồn_cũ * giá_cũ + qty_nhập * giá_nhập) / (tồn_cũ + qty_nhập)
+        const oldQty = inventory ? inventory.quantity : 0;
+        const oldAvg = inventory ? parseFloat(inventory.avg_unit_price) : 0;
+        const importPrice = parseFloat(unit_price) || 0;
+        const newAvg = parseFloat(
+          ((oldQty * oldAvg + qtyImport * importPrice) / (oldQty + qtyImport)).toFixed(2)
         );
+        unitCostForHistory = importPrice;
+
+        if (inventory) {
+          inventory.quantity += qtyImport;
+          inventory.avg_unit_price = newAvg;
+          await inventory.save({ transaction });
+        } else {
+          await Inventory.create(
+            {
+              product_id,
+              warehouse_id,
+              location_id: location_id || null,
+              quantity: qtyImport,
+              avg_unit_price: newAvg,
+              updated_at: new Date(),
+            },
+            { transaction }
+          );
+        }
+      } else {
+        // XUONG / TRA_LAI: chỉ cộng quantity, giữ nguyên avg_unit_price
+        unitCostForHistory = inventory ? parseFloat(inventory.avg_unit_price) : 0;
+
+        if (inventory) {
+          inventory.quantity += qtyImport;
+          await inventory.save({ transaction });
+        } else {
+          await Inventory.create(
+            {
+              product_id,
+              warehouse_id,
+              location_id: location_id || null,
+              quantity: qtyImport,
+              updated_at: new Date(),
+            },
+            { transaction }
+          );
+        }
       }
 
-      // c. Tạo lịch sử tồn kho (StockHistory)
+      // c. Tạo lịch sử tồn kho (StockHistory) kèm giá trị biến động
       await StockHistory.create(
         {
           product_id,
           warehouse_id,
           change_type: 'Nhập',
           reference_id: importReceipt.import_id,
-          quantity_change: parseInt(quantity, 10),
+          quantity_change: qtyImport,
+          unit_cost: parseFloat(unitCostForHistory.toFixed(2)),
+          total_value: parseFloat((qtyImport * unitCostForHistory).toFixed(2)),
           user_id: req.user.user_id,
           created_at: new Date(),
         },

@@ -57,6 +57,8 @@ export default function LocationList() {
     onSuccess: (res) => {
       message.success(`Đã tạo vị trí "${res.data?.location_code || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['locations'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -83,6 +85,8 @@ export default function LocationList() {
     onSuccess: (res) => {
       message.success(`Đã cập nhật vị trí "${res.data?.location_code || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['locations'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -109,6 +113,8 @@ export default function LocationList() {
     onSuccess: (res) => {
       message.success(res.message || 'Xóa vị trí thành công');
       queryClient.invalidateQueries({ queryKey: ['locations'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Có lỗi xảy ra khi xóa vị trí');
@@ -299,7 +305,7 @@ export default function LocationList() {
               { max: 50, message: 'Mã vị trí tối đa 50 ký tự!' },
             ]}
           >
-            <Input placeholder="Nhập mã vị trí (VD: A1-01, B2-05...)" />
+            <Input placeholder="Kệ - tầng - ô chứa cụ thể (VD: A-R1-S1 = Kho A, Rack 1, Shelf 1)" />
           </Form.Item>
           <Form.Item
             name="description"

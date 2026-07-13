@@ -44,6 +44,7 @@ export default function SupplierList() {
     onSuccess: (res) => {
       message.success(`Đã tạo nhà cung cấp "${res.data?.supplier_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -60,6 +61,7 @@ export default function SupplierList() {
     onSuccess: (res) => {
       message.success(`Đã cập nhật nhà cung cấp "${res.data?.supplier_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -76,6 +78,7 @@ export default function SupplierList() {
     onSuccess: (res) => {
       message.success(res.message || 'Xóa nhà cung cấp thành công');
       queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Không thể xóa nhà cung cấp này');

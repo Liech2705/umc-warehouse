@@ -9,7 +9,9 @@ import {
   TrophyOutlined,
   ArrowRightOutlined,
   FireOutlined,
+  WalletOutlined,
 } from '@ant-design/icons';
+import { formatCurrency } from '../utils/formatCurrency';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -310,7 +312,7 @@ export default function Dashboard() {
 
       {/* ── Row 1: StatCards ── */}
       <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
-        <Col xs={24} sm={12} xl={6}>
+        <Col xs={24} sm={12} md={8}>
           {isLoading ? (
             <CardSkeleton />
           ) : (
@@ -325,7 +327,7 @@ export default function Dashboard() {
             />
           )}
         </Col>
-        <Col xs={24} sm={12} xl={6}>
+        <Col xs={24} sm={12} md={8}>
           {isLoading ? (
             <CardSkeleton />
           ) : (
@@ -340,7 +342,7 @@ export default function Dashboard() {
             />
           )}
         </Col>
-        <Col xs={24} sm={12} xl={6}>
+        <Col xs={24} sm={12} md={8}>
           {isLoading ? (
             <CardSkeleton />
           ) : (
@@ -355,7 +357,7 @@ export default function Dashboard() {
             />
           )}
         </Col>
-        <Col xs={24} sm={12} xl={6}>
+        <Col xs={24} sm={12} md={12}>
           {isLoading ? (
             <CardSkeleton />
           ) : (
@@ -396,6 +398,21 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
+          )}
+        </Col>
+        <Col xs={24} sm={12} md={12}>
+          {isLoading ? (
+            <CardSkeleton />
+          ) : (
+            <StatCard
+              title="Tổng giá trị tồn kho"
+              value={formatCurrency(summary.total_inventory_value ?? 0)}
+              icon={<WalletOutlined />}
+              color="#2563EB"
+              gradient="linear-gradient(135deg, rgba(37,99,235,0.12), rgba(59,130,246,0.08))"
+              glowColor="0 8px 25px rgba(37,99,235,0.15)"
+              animDelay="240ms"
+            />
           )}
         </Col>
       </Row>

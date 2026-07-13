@@ -107,7 +107,15 @@ export default function ImportList() {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['imports', warehouseId, importType, dateRange, page, limit],
+    queryKey: [
+      'imports',
+      warehouseId,
+      importType,
+      dateRange?.[0]?.format('YYYY-MM-DD'),
+      dateRange?.[1]?.format('YYYY-MM-DD'),
+      page,
+      limit,
+    ],
     queryFn: async () => {
       const params = {
         page,

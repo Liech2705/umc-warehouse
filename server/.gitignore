@@ -3,8 +3,17 @@ node_modules/
 
 # Environment files
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+
+# Editor configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Logs
 logs/

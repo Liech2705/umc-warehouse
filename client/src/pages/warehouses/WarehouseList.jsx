@@ -44,6 +44,10 @@ export default function WarehouseList() {
     onSuccess: (res) => {
       message.success(`Đã tạo kho "${res.data?.warehouse_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -60,6 +64,10 @@ export default function WarehouseList() {
     onSuccess: (res) => {
       message.success(`Đã cập nhật kho "${res.data?.warehouse_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -76,6 +84,10 @@ export default function WarehouseList() {
     onSuccess: (res) => {
       message.success(res.message || 'Xóa kho thành công');
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['imports'] });
+      queryClient.invalidateQueries({ queryKey: ['exports'] });
+      queryClient.invalidateQueries({ queryKey: ['stockHistory'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Không thể xóa kho hàng này');

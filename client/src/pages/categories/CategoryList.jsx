@@ -46,6 +46,7 @@ export default function CategoryList() {
     onSuccess: (res) => {
       message.success(`Đã tạo nhóm hàng "${res.data?.category_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['categories'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -62,6 +63,7 @@ export default function CategoryList() {
     onSuccess: (res) => {
       message.success(`Đã cập nhật nhóm hàng "${res.data?.category_name || ''}"`);
       queryClient.invalidateQueries({ queryKey: ['categories'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
       handleCloseModal();
     },
     onError: (err) => {
@@ -78,6 +80,7 @@ export default function CategoryList() {
     onSuccess: (res) => {
       message.success(res.message || 'Xóa nhóm hàng thành công');
       queryClient.invalidateQueries({ queryKey: ['categories'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
     onError: (err) => {
       message.error(err.response?.data?.message || 'Không thể xóa nhóm hàng này');

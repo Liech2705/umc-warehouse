@@ -141,10 +141,15 @@ exports.create = async (req, res, next) => {
   }
 };
 
-// [GET] /api/defective-items (Lấy danh sách hàng lỗi có filter)
+// [GET] /api/defective-items (Lấy danh sách hàng lỗi có filter & phân trang)
 exports.getAll = async (req, res, next) => {
   try {
-    const { status, warehouse_id, source_type } = req.query;
+    const { status, warehouse_id, source_type, page = 1, limit = 10 } = req.query;
+
+    const pageInt = parseInt(page) || 1;
+    const limitInt = parseInt(limit) || 10;
+    const offset = (pageInt - 1) * limitInt;
+
     const whereClause = {};
 
     if (status) {
@@ -167,7 +172,7 @@ exports.getAll = async (req, res, next) => {
       whereClause.source_type = typeMapped;
     }
 
-    const defectives = await DefectiveItem.findAll({
+    const { count, rows } = await DefectiveItem.findAndCountAll({
       where: whereClause,
       include: [
         { model: Product, attributes: ['product_code', 'product_name', 'unit'] },
@@ -181,12 +186,22 @@ exports.getAll = async (req, res, next) => {
           ],
         },
       ],
+      offset,
+      limit: limitInt,
       order: [['defective_id', 'DESC']],
     });
 
+    const totalPages = Math.ceil(count / limitInt);
+
     return res.status(200).json({
       success: true,
-      data: defectives,
+      data: rows,
+      pagination: {
+        totalItems: count,
+        totalPages,
+        currentPage: pageInt,
+        limit: limitInt,
+      },
       message: 'Lấy danh sách hàng lỗi thành công.',
     });
   } catch (error) {
