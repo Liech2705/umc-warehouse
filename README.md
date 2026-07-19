@@ -206,7 +206,7 @@ WareHouse-Management/
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/<your-username>/WareHouse-Management.git
+git clone https://github.com/Liech2705/WareHouse-Management.git
 cd WareHouse-Management/umc-warehouse
 ```
 
